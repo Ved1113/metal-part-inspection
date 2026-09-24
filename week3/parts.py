@@ -37,13 +37,6 @@ for i in indices:
     cv2.putText(result_img, f'{conf:.2f}', (int(x1), int(y1) - 10),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
-cv2.imwrite('parts_result.png', result_img)
+cv2.imwrite('output/parts_result.png', result_img)
 print('Saved as parts_result.png')
 
-# NOTE: I also tried combining this with a contour-based "hole check" to
-# distinguish nuts from bolt heads (which look similar in shape). This did
-# NOT work on this image, because the white background blends with the
-# bright metallic parts at any threshold value - there's not enough contrast
-# to separate object from background using simple thresholding here. This
-# only works well when there's strong contrast between object and background
-# (like our earlier washer example on a dark background).

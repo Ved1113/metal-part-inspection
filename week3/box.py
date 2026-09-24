@@ -34,4 +34,4 @@ transformed_corners = cv2.perspectiveTransform(corners, H)
 
 scene_color = cv2.cvtColor(scene, cv2.COLOR_GRAY2BGR)
 cv2.polylines(scene_color, [np.int32(transformed_corners)], True, (0,255,0), 3)
-cv2.imwrite('result.png', scene_color)
+cv2.imwrite('output/box_result.png', scene_color)
