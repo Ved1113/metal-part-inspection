@@ -11,6 +11,9 @@ result = cv2.bitwise_and(img, img, mask=mask)
 
 cv2.imshow("Original", img)
 cv2.imshow("Mask", mask)
+
+cv2.imwrite("output/bitwise_result.jpg", result)
+
 cv2.imshow("Result", result)
 
 cv2.waitKey(0)

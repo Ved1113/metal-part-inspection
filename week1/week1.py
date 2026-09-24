@@ -1,41 +1,54 @@
 import cv2
-img =cv2.imread("images/sample.jpg")
+
+# Read image
+img = cv2.imread("images/sample.jpg")
+
 if img is None:
-    print("img not found")
+    print("Image not found")
     exit()
 
-height ,width,channels=img.shape
+# Get image dimensions
+height, width, channels = img.shape
 
-print("img shape:",img.shape)
-print("img height:",height)
-print("img width:",width)
-print("img channels:",channels)
+print("Image shape:", img.shape)
+print("Image height:", height)
+print("Image width:", width)
+print("Image channels:", channels)
 
-Total_pixel =height*width
-print("pixel count:",Total_pixel)
+# Calculate total number of pixels
+total_pixel = height * width
+print("Pixel count:", total_pixel)
 
+# Select important pixel locations
 locations = {
-    "top left" :(0,0),
+    "Top-Left": (0, 0),
     "Top-Right": (0, width - 1),
     "Bottom-Left": (height - 1, 0),
     "Bottom-Right": (height - 1, width - 1),
     "Center": (height // 2, width // 2)
 }
 
+# Display BGR pixel values
 print("\nCOLOR IMAGE PIXEL VALUES:")
 print("(OpenCV uses BGR order)")
 
 for name, (y, x) in locations.items():
     pixel = img[y, x]
-    print(f"{name}: B={pixel[0]}, G={pixel[1]}, R={pixel[2]}")
 
+    print(
+        f"{name}: "
+        f"B={pixel[0]}, "
+        f"G={pixel[1]}, "
+        f"R={pixel[2]}"
+    )
 
+# Convert image to grayscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+# Display grayscale pixel values
 print("\nGRAYSCALE PIXEL VALUES:")
 
 for name, (y, x) in locations.items():
-
     b, g, r = img[y, x]
 
     gray_value = gray[y, x]
