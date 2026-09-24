@@ -1,0 +1,396 @@
+# Week 2 — Filtering, Thresholding and Morphology
+
+## Objective
+
+The objective of Week 2 was to understand image preprocessing techniques used in computer vision.
+
+The main topics covered were:
+
+- Image filtering and noise reduction
+- Convolution and kernels
+- Thresholding
+- Morphological operations
+- Document image cleaning
+
+The final task was to build a document-cleaning pipeline by combining these techniques.
+
+---
+
+## Topics Covered
+
+### 1. Image Filtering
+
+The following filtering techniques were studied and implemented:
+
+- Gaussian Blur
+- Median Blur
+- Bilateral Filter
+- Non-Local Means Denoising
+
+Filtering is used to reduce unwanted noise while preserving useful information in an image.
+
+### 2. Convolution and Kernels
+
+A kernel is a small matrix that moves across an image and performs calculations on neighboring pixels.
+
+Convolution is commonly used for operations such as:
+
+- Blurring
+- Sharpening
+- Edge detection
+- Noise reduction
+
+In this week, kernels were also used for filtering and morphological operations.
+
+### 3. Thresholding
+
+The following thresholding techniques were implemented:
+
+- Simple Thresholding
+- Adaptive Thresholding
+- Otsu Thresholding
+
+Thresholding converts a grayscale image into a binary image containing mainly black and white pixels.
+
+Adaptive thresholding is useful when an image has uneven lighting because the threshold is calculated based on local regions.
+
+Otsu thresholding automatically calculates a suitable global threshold from the image.
+
+### 4. Morphological Operations
+
+The following morphological operations were implemented:
+
+- Erosion
+- Dilation
+- Opening
+- Closing
+
+These operations are mainly applied to binary images.
+
+- **Erosion:** Shrinks foreground regions and can remove small unwanted areas.
+- **Dilation:** Expands foreground regions and can help connect nearby regions.
+- **Opening:** Erosion followed by dilation; useful for removing small isolated noise.
+- **Closing:** Dilation followed by erosion; useful for filling small gaps and breaks.
+
+---
+
+# Final Document Cleaning Task
+
+The final task was to clean a noisy document image using multiple preprocessing techniques.
+
+## Pipeline
+
+```text
+Noisy Document
+      ↓
+Grayscale
+      ↓
+Median Blur
+      ↓
+Adaptive Threshold
+      ↓
+Morphological Opening
+      ↓
+Morphological Closing
+      ↓
+Cleaned Document
+```
+
+This pipeline demonstrates how different computer vision techniques can be combined instead of relying on thresholding alone.
+
+---
+
+# Folder Structure
+
+```text
+week2/
+│
+├── images/
+│   ├── threshoo.jpg
+│   ├── noisee.jpg
+│   └── sudoku.jpg
+│
+├── output/
+│   ├── gaussian_blur.jpg
+│   ├── median_blur.jpg
+│   ├── bilateral_blur.jpg
+│   ├── simple_threshold.jpg
+│   ├── adaptive_threshold.jpg
+│   ├── otsu_threshold.jpg
+│   ├── erosion.jpg
+│   ├── dilation.jpg
+│   ├── opening.jpg
+│   ├── closing.jpg
+│   ├── document_gray.jpg
+│   ├── document_denoised.jpg
+│   ├── document_threshold.jpg
+│   ├── document_opening.jpg
+│   └── document_final.jpg
+│
+├── clean.py
+├── cleanimg.py
+├── fclean.py
+├── fcleaning.py
+├── guassianblur.py
+├── filters.py
+├── thresholding.py
+├── morphology.py
+├── document_cleaning.py
+├── requirements.txt
+├── README.md
+└── venv/
+```
+
+---
+
+# Existing Experiment Files
+
+### `guassianblur.py`
+
+Initial document-processing experiment using:
+
+- Grayscale conversion
+- Non-Local Means denoising
+- Adaptive thresholding
+- Morphological closing
+
+### `clean.py`
+
+Document-cleaning experiment using:
+
+- Grayscale conversion
+- Image upscaling
+- Denoising
+- Adaptive thresholding
+- Morphological closing
+
+### `cleanimg.py`
+
+Document-cleaning experiment with additional debugging information such as:
+
+- Image shape
+- Denoising statistics
+- Threshold values
+- White-pixel percentage
+
+### `fclean.py`
+
+Advanced document-cleaning experiment using:
+
+- Image upscaling
+- Denoising
+- Sharpening
+- Adaptive thresholding
+- Connected-component analysis
+- Small-noise removal
+
+### `fcleaning.py`
+
+Advanced document-cleaning pipeline using:
+
+- Image upscaling
+- Non-Local Means denoising
+- Adaptive thresholding
+- Connected-component filtering
+- Morphological closing
+
+### `filters.py`
+
+Demonstrates:
+
+- Gaussian Blur
+- Median Blur
+- Bilateral Filter
+
+### `thresholding.py`
+
+Demonstrates:
+
+- Simple Thresholding
+- Adaptive Thresholding
+- Otsu Thresholding
+
+### `morphology.py`
+
+Demonstrates:
+
+- Erosion
+- Dilation
+- Opening
+- Closing
+
+### `document_cleaning.py`
+
+Combines filtering, thresholding and morphology into the final document-cleaning pipeline.
+
+---
+
+# Input Images
+
+The `images` folder contains the images used during the experiments.
+
+### `threshoo.jpg`
+
+Used for document thresholding and cleaning experiments.
+
+### `noisee.jpg`
+
+Used for filtering and noisy-document cleaning experiments.
+
+### `sudoku.jpg`
+
+Used to demonstrate thresholding under uneven lighting conditions.
+
+---
+
+# Output
+
+The `output` folder contains the results generated by the different image-processing techniques.
+
+The outputs allow visual comparison between:
+
+- Original and filtered images
+- Different thresholding methods
+- Different morphological operations
+- Intermediate and final document-cleaning stages
+
+---
+
+# How to Run
+
+## 1. Clone the Repository
+
+Clone the GitHub repository:
+
+```bash
+git clone https://github.com/Ved1113/metal-part-inspection.git
+```
+
+Go to the Week 2 folder:
+
+```bash
+cd metal-part-inspection/week2
+```
+
+---
+
+## 2. Create Virtual Environment
+
+If you want to create a fresh virtual environment:
+
+```bash
+python -m venv venv
+```
+
+---
+
+## 3. Activate Virtual Environment
+
+For Windows PowerShell:
+
+```powershell
+venv\Scripts\activate
+```
+
+After activation, the terminal should show:
+
+```text
+(venv)
+```
+
+---
+
+## 4. Install Required Packages
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 5. Run Filtering Examples
+
+Run:
+
+```bash
+python filters.py
+```
+
+This demonstrates:
+
+- Gaussian Blur
+- Median Blur
+- Bilateral Filter
+
+The results are saved in the `output` folder.
+
+---
+
+## 6. Run Thresholding Examples
+
+Run:
+
+```bash
+python thresholding.py
+```
+
+This demonstrates:
+
+- Simple Thresholding
+- Adaptive Thresholding
+- Otsu Thresholding
+
+The results are saved in the `output` folder.
+
+---
+
+## 7. Run Morphology Examples
+
+Run:
+
+```bash
+python morphology.py
+```
+
+This demonstrates:
+
+- Erosion
+- Dilation
+- Opening
+- Closing
+
+The results are saved in the `output` folder.
+
+---
+
+## 8. Run Complete Document Cleaning
+
+Run:
+
+```bash
+python document_cleaning.py
+```
+
+This combines filtering, thresholding and morphology into a complete document-cleaning pipeline.
+
+The intermediate and final results are saved in the `output` folder.
+
+---
+
+# Learning Outcome
+
+By completing Week 2, I understood how filtering, thresholding and morphological operations are used for image preprocessing.
+
+I also learned that a single technique may not be sufficient for a noisy image. Different preprocessing techniques can be combined to produce a cleaner image suitable for further computer vision processing.
+
+---
+
+# Technologies Used
+
+- Python
+- OpenCV
+- NumPy
+- VS Code
+- Python Virtual Environment
