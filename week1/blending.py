@@ -1,21 +1,18 @@
 import cv2
 
 img1 = cv2.imread("images/sample.jpg")
+img2 = cv2.imread("images/sample.jpg")
 
 if img1 is None:
     raise FileNotFoundError("Could not read images/sample.jpg")
 
-# Use a flipped copy so both images have the same dimensions.
-img2 = cv2.flip(img1, 1)
+# Resize second image to match first image
+img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
 
-# alpha controls the contribution of the first image.
-alpha = 0.5
-beta = 1.0 - alpha
-blended = cv2.addWeighted(img1, alpha, img2, beta, 0)
+# Blend the images
+blended = cv2.addWeighted(img1, 0.5, img2, 0.5, 0)
 
-cv2.imwrite("output/blended_sample.jpg", blended)
-print(f"Blended image saved. alpha={alpha}, beta={beta}")
+cv2.imwrite("output/blended.jpg", blended)
 
-cv2.imshow("Blended", blended)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+print("Blending completed.")
+print("Saved as output/blended.jpg")
