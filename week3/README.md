@@ -1,289 +1,128 @@
-# Week 3 — Feature Matching and Template Matching
+### Week 3 — Contours, Shape & Object Analysis
 
-## Objective
+# Objective
 
-The objective of Week 3 was to understand traditional computer vision techniques for detecting and locating objects or machine parts without using deep learning models.
+The objective of Week 3 was to understand contour-based object analysis using OpenCV.
 
-## Topics Covered
+The main task was to take an image containing scattered objects and:
 
-- Feature detection using ORB
-- Feature description and matching
-- Brute Force matching
-- Lowe's ratio test
-- Homography
-- RANSAC
-- Template matching
-- Detection thresholding
-- Non-Maximum Suppression (NMS)
-- Drawing bounding boxes around detected objects
+Detect individual objects
 
-These techniques are useful for locating known objects or parts in images when a reference/template image is available.
+Count the objects
 
----
+Analyze their size and shape
 
-## 1. Feature-Based Object Localization — `box.py`
+Filter objects using area
 
-Uses ORB feature detection to locate a reference object inside another scene image.
+Calculate aspect ratio
 
-**Pipeline**
+Draw bounding boxes
 
-```
-Template Image
-   ↓
-ORB Keypoint Detection
-   ↓
-Feature Descriptors
-   ↓
-Brute Force Matching
-   ↓
-Lowe's Ratio Test
-   ↓
-Homography
-   ↓
-RANSAC
-   ↓
-Perspective Transformation
-   ↓
-Object Boundary
-```
+Draw minimum enclosing circles
 
-**ORB (Oriented FAST and Rotated BRIEF)**
-Detects distinctive points in an image and creates descriptors representing those points, which can be compared between two images.
+Classify objects based on size and shape
 
-**Brute Force Matcher**
-Compares descriptors from the template image with descriptors from the scene image. `BFMatcher` with `NORM_HAMMING` is used because ORB produces binary descriptors.
 
-**Lowe's Ratio Test**
-For each feature, the two closest matches are considered. The best match is accepted only when it is sufficiently better than the second-best match:
+# Topics Covered
 
-```
-m.distance < 0.75 × n.distance
-```
+Contour detection
 
-**Homography**
-Estimates the geometric transformation between the template and the corresponding region in the scene, allowing the program to locate the template even when its position or perspective changes.
+Contour hierarchy
 
-**RANSAC (Random Sample Consensus)**
-Removes incorrect matches (outliers) and keeps geometrically consistent matches. The template corners are then transformed and a boundary is drawn around the detected object.
+Bounding rectangles
 
-**Result:**
-```
-Good matches: 42
-RANSAC inliers: 40 out of 42
-```
+Minimum enclosing circles
 
----
+Contour area
 
-## 2. Template Matching — `parts.py`
+Aspect ratio
 
-Uses OpenCV template matching to locate multiple occurrences of a known part in a scene.
+Circularity
 
-**Pipeline**
+Object counting
 
-```
-Scene Image + Template
-   ↓
-matchTemplate()
-   ↓
-Similarity Map
-   ↓
-Thresholding
-   ↓
-Candidate Bounding Boxes
-   ↓
-NMS
-   ↓
-Final Detections
-```
+Area-based filtering
 
-**Template Matching**
-`cv2.matchTemplate()` compares the template with different regions of the scene image, producing a similarity score at each location.
+Size classification
 
-**Threshold**
-A threshold of `0.65` was used to select candidate detections from the similarity map.
+Shape classification
 
-**Non-Maximum Suppression (NMS)**
-Template matching can produce many overlapping detections around the same object. NMS removes overlapping duplicates and keeps the strongest detections.
 
-**Result:**
-```
-Raw candidate detections: 27446
-Final detections after NMS: 5
-```
+# How to Run
 
----
+1. Activate the virtual environment
 
-## 3. Key Concepts
+Windows PowerShell:
 
-| Concept | Description |
-|---|---|
-| **Feature Detection** | Identifies distinctive points in an image (corners, edges, texture patterns, other visually distinctive regions) that help recognize the same object in another image. |
-| **Feature Descriptors** | Numerical representations of detected features, compared instead of comparing raw pixels. ORB generates binary descriptors compared using Hamming distance. |
-| **Feature Matching** | Compares descriptors from two images to find corresponding features and determine whether the same object exists in the scene. |
-| **Brute Force Matching** | Compares a descriptor from one image against all descriptors from another, keeping the closest matches by distance. |
-| **Lowe's Ratio Test** | Rejects ambiguous matches by comparing the best match against the second-best match (`0.75` ratio used here). |
-| **Homography** | A geometric transformation mapping one planar view of an object to another, giving its position/orientation in the scene. |
-| **RANSAC** | Identifies matches that follow a consistent geometric transformation and rejects inconsistent outliers. |
-| **matchTemplate()** | Slides a template across a scene image and computes a similarity score at each position. |
-| **Threshold** | Keeps only candidate locations with sufficiently high similarity scores. |
-| **NMS** | Removes overlapping duplicate bounding boxes, keeping the strongest detection per object. |
+venv\Scripts\activate
 
----
+After activation:
 
-## 4. Input Images (`images/`)
+(venv)
 
-| File | Description |
-|---|---|
-| `box.png` | Reference template used for feature matching |
-| `box_scene.png` | Scene image containing the reference object |
-| `nut_template.png` | Reference template of the machine part |
-| `parts_scene.png` | Scene image containing multiple occurrences of the part |
+should appear in the terminal.
 
-## 5. Output (`output/`)
+2. Install dependencies
 
-| File | Description |
-|---|---|
-| `box_result.png` | Localized template object using ORB, feature matching, homography, RANSAC and perspective transformation |
-| `parts_result.png` | Final detected parts after template matching, thresholding, bounding-box generation and NMS |
+pip install -r requirements.txt
 
----
+3. Run the object analysis
 
-## Overall Week 3 Pipeline
+python object_analysis.py
 
-```
-                 Traditional Computer Vision
-                           │
-             ┌─────────────┴─────────────┐
-             │                           │
-      Feature Matching            Template Matching
-             │                           │
-            ORB                  matchTemplate()
-             │                           │
-       Descriptors                 Similarity
-             │                           │
-       BFMatcher                  Threshold
-             │                           │
-     Lowe's Ratio Test          Candidate Boxes
-             │                           │
-       Homography                     NMS
-             │                           │
-          RANSAC                  Final Detections
-             │
-      Object Localization
-```
+The program performs:
 
-## Folder Structure
+Image
+ ↓
+HSV conversion
+ ↓
+Background segmentation
+ ↓
+Binary mask
+ ↓
+Morphological processing
+ ↓
+Contour detection
+ ↓
+Area filtering
+ ↓
+Bounding box
+ ↓
+Minimum enclosing circle
+ ↓
+Area / aspect ratio / circularity analysis
+ ↓
+Size classification
+ ↓
+Shape classification
+ ↓
+Final annotated image
 
-```text
+
+Folder Structure
+
 week3/
+
 ├── images/
-│   ├── box.png
-│   ├── box_scene.png
-│   ├── nut_template.png
-│   └── parts_scene.png
+│   └── scattered_objects.jpg
+│
 ├── output/
-│   ├── box_result.png
-│   └── parts_result.png
-├── box.py
-├── parts.py
+│   ├── object_analysis.jpg
+│   └── object_mask.jpg
+│
+├── object_analysis.py
 ├── requirements.txt
 ├── README.md
 └── venv/
-```
 
-## How to Run
+# Technologies Used
 
-**1. Activate the virtual environment** (Windows PowerShell)
+Python
 
-```
-venv\Scripts\activate
-```
+OpenCV
 
-`(venv)` should appear in the terminal once activated.
+NumPy
 
-**2. Install dependencies**
+VS Code
 
-```
-pip install -r requirements.txt
-```
-
-**3. Run feature matching**
-
-```
-python box.py
-```
-
-Result saved to `output/box_result.png`. Terminal output:
-```
-Good matches: 42
-RANSAC inliers: 40 out of 42
-```
-
-**4. Run template matching**
-
-```
-python parts.py
-```
-
-Result saved to `output/parts_result.png`. Terminal output:
-```
-Raw candidate detections: 27446
-Final detections after NMS: 5
-```
-
----
-
-## Feature Matching vs. Template Matching
-
-**Feature Matching**
-Looks for distinctive points and compares their descriptors. Useful when:
-- The object can change position or rotate
-- Perspective can change
-- The object has distinctive features
-
-Advantage: it does not require the entire object to have exactly the same pixel appearance.
-
-**Template Matching**
-Directly compares a reference image with regions of the scene. Useful when:
-- The object's appearance is relatively consistent
-- The scale is similar
-- A reference template is available
-- The object has a consistent visual pattern
-
-## Traditional Computer Vision vs. Deep Learning
-
-**Traditional Computer Vision**
-```
-Image → Hand-designed features/template → Matching → Detection
-```
-
-**Deep Learning**
-```
-Image → Neural Network → Learned Features → Object Detection
-```
-
-Traditional methods work well when object appearance and conditions are controlled. Deep-learning detectors are generally more suitable when there is variation in lighting, position, scale, rotation, background, or object appearance. The Week 3 experiments provide a foundation for understanding why modern object detection models (e.g. YOLO) are useful for industrial inspection.
-
-## Learning Outcome
-
-By completing Week 3, I understood two traditional computer vision approaches for object localization: feature matching, which uses distinctive image features and geometric relationships, and template matching, which directly compares a known template against regions of an image.
-
-I also learned:
-- How ORB detects and describes features
-- How Brute Force matching compares descriptors
-- How Lowe's ratio test removes ambiguous matches
-- How homography maps a template into a scene
-- How RANSAC removes incorrect feature matches
-- How template matching generates similarity scores
-- How thresholding selects candidate detections
-- How NMS removes duplicate bounding boxes
-
-These techniques provide a foundation for understanding more advanced object detection methods such as YOLO and other deep-learning-based detectors.
-
-## Technologies Used
-
-- Python
-- OpenCV
-- NumPy
-- VS Code
-- Python Virtual Environment
+Python Virtual Environment
