@@ -1,137 +1,104 @@
-# Week 4 — Advanced OpenCV
+# Week 4 — Features, Matching & Intro to Detection Models
 
-This week focused on advanced OpenCV techniques used for face detection,
-feature matching, and image stitching.
+## Objective
+
+This week focuses on classical computer vision techniques used for feature matching, image alignment, object matching, and basic object detection. It also provides an introduction to pretrained YOLO models before moving into custom object detection in Month 2.
+
+---
 
 ## Topics Covered
 
-- Haar Cascade face detection
-- Haar Cascade eye detection
-- ORB feature detection
-- ORB feature descriptors
-- Brute-Force feature matching
-- Homography
-- RANSAC
-- Panorama stitching
+### 1. Template Matching
+
+- Used OpenCV `matchTemplate()` to locate a template inside a larger image.
+- Used normalized template matching to find the best matching location.
+- Displayed the detected region using a bounding rectangle.
+- Calculated and displayed the matching score.
+
+**Implementation:** `parts.py` / `template_matching.py`
 
 ---
 
-## 1. Face and Eye Detection
+### 2. Homography and Image Alignment
 
-### File
-`facedetection.py`
+- Used ORB feature detection to extract keypoints and descriptors.
+- Used BFMatcher to match features between images.
+- Used RANSAC to remove incorrect feature matches.
+- Calculated the homography matrix.
+- Used the homography for image alignment / panorama stitching.
 
-### Input
-`images/group.webp`
+**Implementation:** `panoramaa.py`
 
-### Method
-
-Haar Cascade classifiers were used for detecting faces and eyes.
-
-Two pretrained Haar Cascade files were used:
-
-- `haarcascade_frontalface_alt2.xml`
-- `haarcascade_eye.xml`
-
-The input image is first converted to grayscale because Haar Cascade
-detection works efficiently on grayscale images.
-
-The face detector identifies faces and draws a green bounding box around
-each detected face.
-
-For every detected face, the corresponding face region is extracted and
-the eye detector is applied to that region.
-
-Detected eyes are marked with blue bounding boxes.
-
-### Output
-
-`output/faces_detected.jpg`
+**Output:** `output/stitched_resultt.png`
 
 ---
 
-## 2. ORB Feature Matching
+### 3. Haar Cascade Face and Eye Detection
 
-### File
-`panoramaa.py`
+- Used OpenCV Haar Cascade classifiers.
+- Detected faces from an input image.
+- Detected eyes inside the detected face regions.
+- Drawn bounding boxes around detected faces and eyes.
 
-### Input
+**Implementation:** `facedetection.py`
 
-- `images/photoA.png`
-- `images/photoB.png`
-
-ORB (Oriented FAST and Rotated BRIEF) is used to detect important
-features or keypoints in both images.
-
-ORB generates descriptors for these keypoints so that corresponding
-features between the two images can be matched.
-
-A Brute-Force Matcher with Hamming distance is used because ORB produces
-binary descriptors.
-
-The best matches are selected based on descriptor distance.
+**Output:** `faces_detected.jpg`
 
 ---
 
-## 3. Homography and RANSAC
+### 4. Introduction to YOLO / Pretrained Object Detection
 
-After finding matching points between the two images, homography is used
-to calculate the geometric transformation between them.
+- Introduced the concept of pretrained object detection models.
+- Used a pretrained YOLO model for inference.
+- Loaded pretrained YOLO weights.
+- Ran inference on an existing image.
+- Generated an annotated image containing the model's detections.
 
-RANSAC is used during homography estimation to reduce the effect of
-incorrect feature matches (outliers).
+**Implementation:** `yolo_inference.py`
 
-The detected transformation is then used to warp one image into the
-coordinate system of the other image.
+**Input:** `images/parts_scene.png`
+
+**Output:** `output/yolo_result.jpg`
+
+> Note: YOLO is used only for pretrained inference in Week 4. Custom YOLO training is part of Week 6.
 
 ---
 
-## 4. Panorama Stitching
+## Week 4 Task Completion
 
-After calculating the transformation, the second image is warped and
-combined with the first image to create a panorama.
-
-### Outputs
-
-- `output/orb_matches.png`
-- `output/stitched_resultt.png`
-
-`orb_matches.png` shows the feature correspondences between the two
-images.
-
-`stitched_resultt.png` contains the final stitched panorama.
+| Requirement | Implementation |
+|---|---|
+| Template matching | `parts.py` / `template_matching.py` |
+| Homography / image alignment | `panoramaa.py` |
+| Panorama / stitching demo | `panoramaa.py` |
+| Haar face detection | `facedetection.py` |
+| Haar eye detection | `facedetection.py` |
+| Pretrained YOLO inference | `yolo_inference.py` |
 
 ---
 
 ## Folder Structure
 
 ```text
-week_4/
+week4/
 │
 ├── images/
-│   ├── group.webp
-│   ├── photoA.png
-│   └── photoB.png
+│   ├── parts_scene.png
+│   ├── nut_template.png
+│   └── ...
 │
 ├── output/
-│   ├── faces_detected.jpg
-│   ├── orb_matches.png
-│   └── stitched_resultt.png
+│   ├── stitched_resultt.png
+│   ├── template_matching_result.jpg
+│   └── yolo_result.jpg
 │
-├── facedetection.py
+├── parts.py
+├── template_matching.py
 ├── panoramaa.py
-├── haarcascade_eye.xml
-├── haarcascade_frontalface_alt2.xml
-├── requirements.txt
-├── README.md
-└── venv/
-
-## Requirements
-Python
-OpenCV
-NumPy
-
-The project was developed and tested using a Python virtual environment.
+├── facedetection.py
+├── yolo_inference.py
+├── faces_detected.jpg
+└── README.md
 
 ## How to Run
 
@@ -142,5 +109,11 @@ python facedetection.py
 For panorama stitching:
 
 python panoramaa.py
+
+for template matching 
+templatematch.py
+
+for yolo inference 
+yolo_inference.py
 
 The generated results are saved inside the output folder.
