@@ -1,0 +1,7 @@
+{"time": "2026-10-10 09:16:40", "part_id": "P261010-091640-323", "severity": "Critical", "defects": {"Crack": 1}, "total": 1}
+{"time": "2026-10-10 12:49:53", "part_id": "1", "severity": "Critical", "defects": {"Porosity": 8}, "total": 8}
+{"time": "2026-10-10 12:49:53", "part_id": "1", "severity": "Critical", "defects": {"Porosity": 8}, "total": 8}
+{"time": "2026-10-12 18:26:44", "part_id": "P261012-182633-16F", "severity": "Major", "defects": {"Porosity": 1}, "total": 1}
+{"time": "2026-10-12 18:34:31", "part_id": "P261012-183430-36A", "severity": "Major", "defects": {"Porosity": 2}, "total": 2}
+{"time": "2026-10-12 18:36:08", "part_id": "P261012-183608-449", "severity": "Major", "defects": {"Scratch": 5}, "total": 5}
+{"time": "2026-10-13 09:24:17", "part_id": "1", "severity": "Critical", "defects": {"Crack": 1}, "total": 1}
